@@ -4,6 +4,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 const router = require('./router/index')
 const errorHandler = require('./middleware/error-handler')
+require('./model')
 
 
 const port = process.env.port || 3000
@@ -14,7 +15,7 @@ app.use(cors())
 app.use(express.json());
 
 app.use(router)
-app.use(errorHandler)
+app.use(errorHandler())
 
 
 app.listen(port, () => {
