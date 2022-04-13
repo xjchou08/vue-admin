@@ -1,5 +1,5 @@
 # vue-admin
-# 【全栈之巅】Node.js + Vue.js 全栈开发管理后台
+# 【全栈】Node.js + Vue.js 全栈开发管理后台
 > 功能持续开发中……
 
 ## 一、 入门
