@@ -5,7 +5,7 @@ const { User } = require("../model");
 const md5 = require('../utils/md5')
 
 exports.register = validate([
-  body("user.username")
+  body("username")
     .notEmpty()
     .withMessage("用户名不能为空")
     .custom(async (username) => {
@@ -15,7 +15,7 @@ exports.register = validate([
         return Promise.reject("用户名已存在");
       }
     }),
-  body("user.email")
+  body("email")
     .notEmpty()
     .withMessage("邮箱不能为空")
     .isEmail()
@@ -28,25 +28,25 @@ exports.register = validate([
         return Promise.reject("邮箱已存在");
       }
     }),
-  body("user.password")
+  body("password")
     .notEmpty()
     .withMessage("密码不能为空")
     .isLength(6, 12)
-    .withMessage("密码长度6:-12"),
+    .withMessage("密码长度6-12"),
 ]);
 
 exports.login = [
   validate([
-    body("user.email")
+    body("email")
       .notEmpty()
       .withMessage("邮箱不能为空")
       .isEmail()
       .withMessage("邮箱格式错误"),
-    body("user.password").notEmpty().withMessage("密码不能为空"),
+    body("password").notEmpty().withMessage("密码不能为空"),
   ]),
   validate([
     //上面验证成功，检验是否存在此用户
-    body("user.email").custom(async (email, { req }) => {
+    body("email").custom(async (email, { req }) => {
       const user = await User.findOne({ email }).select([
         "username",
         "email",
@@ -64,7 +64,9 @@ exports.login = [
 
   validate([
     //验证密码是否与数据库存储的相同
-    body("user.password").custom(async (password, { req }) => {
+    body("password").custom(async (password, { req }) => {
+      console.log(req.user.password);
+      console.log(md5(password));
       if (md5(password) !== req.user.password) {
         return Promise.reject("密码不正确");
       }

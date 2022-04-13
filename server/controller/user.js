@@ -4,9 +4,8 @@ const { jwtSecret } = require('../config/config.default')
 
 exports.login = async(req, res, next) => {
     try {
-        
-        const user = req.user.toJSON()
-
+      const user = req.user.toJSON()
+      if (user) {
         const token = await jwt.sign(
           {
             userId: user._id,
@@ -16,14 +15,14 @@ exports.login = async(req, res, next) => {
             expiresIn: 60 * 60 * 24, //token有效期24hour
           }
         );
-        
-        //console.log(token)
         delete user.password
-        
         res.status(200).json({
           ...user,
           token,
         });
+      } else {
+        return res.status(400).send('登录失败')
+      }
     
     } catch (err) {
         next(err)
@@ -32,7 +31,7 @@ exports.login = async(req, res, next) => {
 
 exports.register = async (req, res, next) => {
     try {
-        let user = new User(req.body.user)
+        let user = new User(req.body)
         await user.save()  
 
         user = user.toJSON()
