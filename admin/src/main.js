@@ -1,14 +1,14 @@
 import Vue from 'vue'
-import App from './App.vue'
 import router from './router'
 import store from './store'
+import Layout from '@/layout'
 import '@/plugins'
 
 Vue.config.productionTip = false
 
-
 new Vue({
   router,
   store,
-  render: h => h(App)
+  Layout,
+  render: h => h(Layout)
 }).$mount('#app')
