@@ -1,10 +1,13 @@
 //封装axios
 import axios from 'axios'
+import store from '@/store'
+// import { getToken } from './auth';
+//import { Message } from 'element-ui';
 
 const service = axios.create({
   //baseURL: "http://localhost:3000/api", //vue.config.js  配置跨域的同时要关掉这里的
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 1000,
+  timeout: 5000,
 });
 
 
@@ -13,10 +16,26 @@ service.interceptors.request.use(config => {
 
   config.headers.get['Content-Type'] = "application/json;charset=utf-8",
   config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-    
-    // token 获取
+  
+  /**
+   * 
+  
+  const token = getToken()
 
-    return config
+  if(token) {
+    config.headers["Authorization"] = "Bearer " + token;
+  }
+  const res = store.getters.token
+ */
+  const token = store.getters.token
+  
+  if (token) {
+    config.headers["Authorization"] = "Bearer " + token
+  }
+  //console.log(token);
+    
+  return config
+  
 }, error => {
   error.message = error
   return Promise.reject(error)
@@ -24,11 +43,8 @@ service.interceptors.request.use(config => {
 
 //响应拦截器
 service.interceptors.response.use(response => {
-  if (response.status === 200) {
       return Promise.resolve(response)
-  } else {
-    return Promise.reject(response)
-  }
+
 }, err => {
       switch (err.code) {
         case 200:

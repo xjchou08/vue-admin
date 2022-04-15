@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/",
+    redirect: "/home",
     name: "layout",
     children: [
       {
@@ -27,7 +27,7 @@ const routes = [
   },
   {
     path: "/about",
-    name: "About",
+    name: "about",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },

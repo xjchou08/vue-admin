@@ -5,12 +5,18 @@ import {
   Message,
   FormItem,
   Form,
-  InputNumber,
+  Loading ,
 } from "element-ui";
 
-const components = [Button, Input, MenuItem, FormItem, InputNumber, Form];
+const components = [
+  Button,
+  Input,
+  MenuItem,
+  FormItem,
+  Form,
+];
 
-const productionTipCmp = [Message];
+const productionTipCmp = [Message, Loading];
 
 export default {
   components,

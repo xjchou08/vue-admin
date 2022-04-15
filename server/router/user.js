@@ -19,4 +19,7 @@ router.post(
 //获取用户信息
 router.get("/user", userCtrl.getUser);
 
+// 退出用户
+router.post("/logout", userCtrl.logout);
+
 module.exports = router;

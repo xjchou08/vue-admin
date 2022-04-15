@@ -1,72 +1,139 @@
-
 <template>
-<el-form :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="100px" class="demo-ruleForm">
-  
-  <el-form-item prop="email">
-    <el-input type="text" v-model="loginForm.email" autocomplete="on" placeholder="请输入邮箱账号"></el-input>
-  </el-form-item>
+  <el-form
+    :model="loginForm"
+    status-icon
+    :rules="rules"
+    ref="loginForm"
+    label-width="100px"
+    class="demo-ruleForm"
+  >
+    <el-form-item prop="email">
+      <el-input
+        type="text"
+        v-model="loginForm.email"
+        autocomplete="on"
+        placeholder="请输入邮箱账号"
+      ></el-input>
+    </el-form-item>
 
-  <el-form-item  prop="password">
-    <el-input type="password" v-model="loginForm.password" autocomplete="on" placeholder="请输入密码"></el-input>
-  </el-form-item>
+    <el-form-item prop="password">
+      <el-input
+        type="password"
+        v-model="loginForm.password"
+        autocomplete="on"
+        placeholder="请输入密码"
+      ></el-input>
+    </el-form-item>
 
-  <el-form-item>
-    <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
-    <el-button @click="resetForm('loginForm')">重置</el-button>
-  </el-form-item>
-</el-form>
+    <el-form-item>
+      <el-button
+        type="primary"
+        :loading="loading"
+        @click="submitForm('loginForm')"
+        >登录</el-button
+      >
+      <el-button @click="resetForm('loginForm')">重置</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
-import  {login} from '@/api/user'
+//import { login } from "@/api/user";
+//import { setToken } from '@/utils/auth'
+import { validEmail } from "@/utils/validate";
+//import { mapActions } from 'vuex'
 
-  export default {
-    data() {
-      return {
-        loginForm: {
-          email: 'admin123@qq.com',
-          password: 'admin123456'
-        },
-
-        rules: {
-          email: [ {required:true,  trigger: 'blur' }],
-          password: [
-            { required:true, trigger: 'blur' }
-          ],
-          
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) { 
-            let data = this.loginForm
-            
-            login(data).then(res=>{
-              console.log(res)
-              if(res.status === 200) {
-               this.$message({
-                 message:'用户登录成功',
-                 type:'success'
-               })
-                localStorage.setItem('token',res.data.token)
-                this.$router.push({path:'/about'})
-               
-              }
-            }).catch(err=>{
-              return err
-            })
-
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+export default {
+  data() {
+    const validatePassword = (rule, value, callback) => {
+      if (value.length > 12 && value.length < 6) {
+        callback(new Error("密码输入长度在6-12"));
+      } else {
+        callback();
       }
-    }
-  }
+    };
+    const validateEmail = (rule, value, callback) => {
+      if (!validEmail(value)) {
+        callback(new Error("请输入正确的邮箱"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      loginForm: {
+        email: "admin123@qq.com",
+        password: "admin123456",
+      },
+      rules: {
+        email: [{ validator: validateEmail, required: true, trigger: "blur" }],
+        password: [
+          { validator: validatePassword, required: true, trigger: "blur" },
+        ],
+      },
+      loading: false,
+    };
+  },
+  methods: {
+    submitForm() {
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          try {
+            this.loading = true
+
+              this.$store.dispatch('user/login', this.loginForm).then(() => {
+                  setTimeout(() => {
+                    this.loading = false
+                    this.$router.push({path:'/about'})
+
+                    this.$message({
+                    message:"登录成功",
+                    type:'success'
+                   })
+                  }, 1000);
+                
+              }).catch(err=>{
+                console.log(err)
+                this.loading = false
+              })
+     
+/** 
+            login(this.loginForm)
+              .then((res) => {
+
+                const data = res.data
+                //console.log(data)
+
+                  let token1 = data.token
+                  setToken(token1)
+                 // console.log(getToken('token'))
+
+                if (res.status === 200) {
+                  this.$router.push({ path: "/about" });
+                  this.$message({
+                    message: "登录成功",
+                    type: "success",
+                  });
+
+                  this.loading = false
+                }
+              })
+              .catch(() => {
+                this.loading = false
+              });
+
+*/
+
+
+          } catch (err) {
+            console.log(err)
+            return err;
+          }
+        }
+      }); 
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+  },
+};
 </script>

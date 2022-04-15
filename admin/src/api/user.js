@@ -9,12 +9,12 @@ export function login(data){
 }
 
 //获取用户信息
-export function getUser() {
-    return http.get(`${userUrl}`);
+export function getUser(token) {
+    return http.get(`${userUrl}`, token);
 }
 
 //退出用户
 
 export function logout() {
-    
+    return http.post( `${userUrl}/logout`)
 }

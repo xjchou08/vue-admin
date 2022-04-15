@@ -12,7 +12,8 @@ exports.login = async(req, res, next) => {
           },
           jwtSecret,
           {
-            expiresIn: 60 * 60 * 24, //token有效期24hour
+            //expiresIn: 60 * 60 * 24, // token有效期24hour
+            expiresIn: 60  // 一分钟
           }
         );
         delete user.password
@@ -46,6 +47,7 @@ exports.register = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
+    
       res.status(200).json({
         user: req.user,
       });
@@ -53,3 +55,12 @@ exports.getUser = async (req, res, next) => {
     next(err);
   }
 };
+
+
+exports.logout = async (req, res, next) => {
+  try {
+    // 删除生成的token
+  } catch (err) {
+    next(err)
+  }
+}
