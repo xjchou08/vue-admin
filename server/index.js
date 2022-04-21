@@ -2,8 +2,6 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const morgan = require('morgan')
-//const cookie = require('cookie-parser')  1.5版本不使用
-const session = require('express-session')
 const router = require('./router/index')
 const errorhandler = require("errorhandler");
 require('./model')
@@ -20,14 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //app.use(cookie());
 app.use('/api', router)
-app.use(session({
-    resave: false, //强制保存session
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 5000    //过期时间
-    },
-    rolling: true
-}))
+
 
 if (process.env.NODE_ENV === "development") {
   // only use in development
