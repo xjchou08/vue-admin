@@ -65,8 +65,8 @@ exports.login = [
   validate([
     //验证密码是否与数据库存储的相同
     body("password").custom(async (password, { req }) => {
-      console.log(req.user.password);
-      console.log(md5(password));
+      //console.log(req.user.password);
+      //console.log(md5(password));
       if (md5(password) !== req.user.password) {
         return Promise.reject("密码不正确");
       }

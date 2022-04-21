@@ -1,0 +1,22 @@
+body,
+html,
+#app {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font: italic normal normal Helvetica, Arial, sans-serif;
+    font-family: 'Hiragino Sans GB', 'Microsoft Yahei', "WenQuanYi Micro Hei", SimSun, Tahoma, Arial, Helvetica, STHeiti;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+}

@@ -10,7 +10,9 @@ export function login(data){
 
 //获取用户信息
 export function getUser(token) {
-    return http.get(`${userUrl}`, token);
+  return http.get(`${userUrl}/user`, {
+    Headers: { Authorization: "Bearer " + token },
+  });
 }
 
 //退出用户

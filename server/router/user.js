@@ -1,6 +1,7 @@
 const express = require("express");
 const userCtrl = require("../controller/user");
 const userValidator = require('../validator/user')
+const auth = require('../middleware/auth')
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.post(
 );
 
 //获取用户信息
-router.get("/user", userCtrl.getUser);
+router.get("/user", auth, userCtrl.getUser);
 
 // 退出用户
 router.post("/logout", userCtrl.logout);

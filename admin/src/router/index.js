@@ -1,40 +1,65 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
+import Layout from "@/layout";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/login",
+    component: () => import("../views/login/index.vue"),
+    hidden: true,
+  },
+  {
     path: "/",
-    redirect: "/home",
-    name: "layout",
+    redirect: "/dashboard",
+    component: Layout,
     children: [
       {
-        path: "/",
-        component: () => import("@/layout"),
+        path: "/dashboard",
+        name: "首页",
+        component: () => import("../views/dashboard"),
         meta: {
           title: "首页",
-          icon: "",
+          icon: "dashboard",
         },
       },
     ],
   },
   {
-    path: "/home",
-    name: "home",
-    component: ()=>import('../views/Home.vue'),
+    path: "/user",
+    component: Layout,
+    children: [
+      {
+        path: "/user",
+        name: "user",
+        component: () => import("../views/user/index.vue"),
+        meta: {
+          title: "用户管理",
+          icon: "user",
+        },
+      },
+    ],
   },
   {
-    path: "/about",
-    name: "about",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    path: "/echart",
+    component: Layout,
+    children: [
+      {
+        path: "/echart",
+        name: "echart",
+        component: () => import("../views/echart/index.vue"),
+        meta: {
+          title: "图表",
+          icon: "user",
+        },
+      },
+    ],
   },
   {
-    path: "/login",
-    name: "login",
-    component: () => import("../views/login/index.vue"),
+    path: "/*",
+    component: () => import("../views/error/404.vue"),
+    hidden: true,
   },
 ];
 
@@ -44,4 +69,21 @@ const router = new VueRouter({
   routes,
 });
 
+/**
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.getters.token) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    }
+  } else {
+    next('/');
+  }
+});
+ */
 export default router;

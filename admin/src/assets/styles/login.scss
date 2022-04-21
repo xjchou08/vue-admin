@@ -1,0 +1,23 @@
+// 登录页面布局
+.login-container {
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom: 0;
+    display: flex;
+    align-content: space-around;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: url('../../../src/assets/images/bg.jpg') no-repeat;
+    background-size: cover;
+.loginform {
+        padding:50px;
+        min-width: 300px;
+        border-radius: 10px;
+        background-color: #ffff;
+        .loginBtn {
+            width: 100%;
+        }
+    }
+}

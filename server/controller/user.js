@@ -1,6 +1,7 @@
 const { User } = require('../model')
 const jwt = require('../utils/jwt')
 const { jwtSecret } = require('../config/config.default')
+//const session = require('express-session')
 
 exports.login = async(req, res, next) => {
     try {
@@ -13,9 +14,10 @@ exports.login = async(req, res, next) => {
           jwtSecret,
           {
             //expiresIn: 60 * 60 * 24, // token有效期24hour
-            expiresIn: 60  // 一分钟
+            expiresIn: 30  // 一分钟
           }
         );
+        // res.cookie("token", token, { httpOnly:true });
         delete user.password
         res.status(200).json({
           ...user,
@@ -47,9 +49,9 @@ exports.register = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    
+
       res.status(200).json({
-        user: req.user,
+        user: req.user
       });
   } catch (err) {
     next(err);
@@ -60,6 +62,7 @@ exports.getUser = async (req, res, next) => {
 exports.logout = async (req, res, next) => {
   try {
     // 删除生成的token
+
   } catch (err) {
     next(err)
   }

@@ -1,47 +1,46 @@
 <template>
-  <el-form
-    :model="loginForm"
-    status-icon
-    :rules="rules"
-    ref="loginForm"
-    label-width="100px"
-    class="demo-ruleForm"
-  >
-    <el-form-item prop="email">
-      <el-input
-        type="text"
-        v-model="loginForm.email"
-        autocomplete="on"
-        placeholder="请输入邮箱账号"
-      ></el-input>
-    </el-form-item>
+  <div class="login-container">
+    <el-form
+      :model="loginForm"
+      status-icon
+      :rules="rules"
+      ref="loginForm"
+      class="loginform"
+    >
+      <el-form-item prop="email">
+        <el-input
+          type="text"
+          v-model="loginForm.email"
+          autocomplete="on"
+          placeholder="请输入邮箱账号"
+        ></el-input>
+      </el-form-item>
 
-    <el-form-item prop="password">
-      <el-input
-        type="password"
-        v-model="loginForm.password"
-        autocomplete="on"
-        placeholder="请输入密码"
-      ></el-input>
-    </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          type="password"
+          v-model="loginForm.password"
+          autocomplete="on"
+          placeholder="请输入密码"
+        ></el-input>
+      </el-form-item>
 
-    <el-form-item>
-      <el-button
-        type="primary"
-        :loading="loading"
-        @click="submitForm('loginForm')"
-        >登录</el-button
-      >
-      <el-button @click="resetForm('loginForm')">重置</el-button>
-    </el-form-item>
-  </el-form>
+      <el-form-item>
+        <el-button
+          type="primary"
+          :loading="loading"
+          @click="submitForm('loginForm')"
+          class="loginBtn"
+          >登录</el-button
+        >
+        <!--<el-button @click="resetForm('loginForm')">重置</el-button>-->
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
-//import { login } from "@/api/user";
-//import { setToken } from '@/utils/auth'
 import { validEmail } from "@/utils/validate";
-//import { mapActions } from 'vuex'
 
 export default {
   data() {
@@ -76,64 +75,45 @@ export default {
   methods: {
     submitForm() {
       this.$refs.loginForm.validate((valid) => {
-        if (valid) {
+        if (!valid) {
+          return
+        } else {
           try {
-            this.loading = true
+            this.loading = true;
 
-              this.$store.dispatch('user/login', this.loginForm).then(() => {
-                  setTimeout(() => {
-                    this.loading = false
-                    this.$router.push({path:'/about'})
-
-                    this.$message({
-                    message:"登录成功",
-                    type:'success'
-                   })
-                  }, 1000);
-                
-              }).catch(err=>{
-                console.log(err)
-                this.loading = false
-              })
-     
-/** 
-            login(this.loginForm)
-              .then((res) => {
-
-                const data = res.data
-                //console.log(data)
-
-                  let token1 = data.token
-                  setToken(token1)
-                 // console.log(getToken('token'))
-
-                if (res.status === 200) {
-                  this.$router.push({ path: "/about" });
+            this.$store
+              .dispatch("user/login", this.loginForm)
+              .then(() => {
+                setTimeout(() => {
+                  this.loading = false;
+                  this.$router.push({path:'/dashboard'})
                   this.$message({
                     message: "登录成功",
                     type: "success",
                   });
-
-                  this.loading = false
-                }
+                }, 1000);
               })
-              .catch(() => {
-                this.loading = false
+              .catch((err) => {
+                //console.log(err);
+                this.loading = false;
+                this.$message.error("账号或密码输入错误:"+err);    
               });
-
-*/
-
-
           } catch (err) {
-            console.log(err)
+            console.log(err);
             return err;
           }
         }
-      }); 
+      });
     },
+    /** 
+     * 重置按钮
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    },
+    },*/
   },
 };
 </script>
+
+<style lang="scss">
+@import "@/assets/styles/login.scss";
+</style>
