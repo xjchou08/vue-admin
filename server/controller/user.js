@@ -37,6 +37,8 @@ exports.register = async (req, res, next) => {
         let user = new User(req.body)
         await user.save()  
 
+      // 存入session中
+        req.session.users = user
         user = user.toJSON()
         delete user.password
 
