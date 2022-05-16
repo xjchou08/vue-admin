@@ -1,11 +1,8 @@
-'use strict'
-
-const path = require('path');
+const path = require("path");
 
 function resolve(dir) {
-  return path.join(__dirname, "./", dir);
+  return path.join(__dirname, dir);
 }
-
 
 module.exports = {
   devServer: {
@@ -18,15 +15,23 @@ module.exports = {
           "^/api": "",
         },
       },
+      "/covid": {
+        host: "0.0.0.0",
+        target: "https://view.inews.qq.com",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/covid": "",
+        },
+      },
     },
     disableHostCheck: true,
   },
-  configureWebpack: {
-    resolve: {
-      alias: {
-        "@": resolve("src"), //src 别名
-      },
-    },
+  chainWebpack: (config) => {
+    //set第一个参数：设置的别名，第二个参数：设置的路径
+    config.resolve.alias
+      .set("@", resolve("./src"))
+      .set("components", resolve("./src/components"))
+      .set("views", resolve("./src/views"))
+      .set("assets", resolve("./src/assets"));
   },
-
 };

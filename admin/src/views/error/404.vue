@@ -1,6 +1,3 @@
 <template>
-    
-    <div>
-        404
-    </div>
+  <div>页面不存在</div>
 </template>

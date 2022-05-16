@@ -60,8 +60,8 @@ export default {
     };
     return {
       loginForm: {
-        email: "admin123@qq.com",
-        password: "admin123456",
+        email: "admin@qq.com",
+        password: "admin123",
       },
       rules: {
         email: [{ validator: validateEmail, required: true, trigger: "blur" }],
@@ -76,7 +76,7 @@ export default {
     submitForm() {
       this.$refs.loginForm.validate((valid) => {
         if (!valid) {
-          return
+          return;
         } else {
           try {
             this.loading = true;
@@ -86,17 +86,15 @@ export default {
               .then(() => {
                 setTimeout(() => {
                   this.loading = false;
-                  this.$router.push({path:'/dashboard'})
+                  this.$router.push({ path: "/dashboard" });
                   this.$message({
                     message: "登录成功",
                     type: "success",
                   });
                 }, 1000);
               })
-              .catch((err) => {
-                //console.log(err);
+              .catch(() => {
                 this.loading = false;
-                this.$message.error("账号或密码输入错误:"+err);    
               });
           } catch (err) {
             console.log(err);
@@ -115,5 +113,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/styles/login.scss";
+@import "~assets/styles/login.scss";
 </style>

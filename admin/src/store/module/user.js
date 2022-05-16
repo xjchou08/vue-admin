@@ -31,7 +31,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ email: email.trim(), password: password })
         .then((res) => {
-          const token = res.data.token;
+          let token = res.data.token;
           commit("set_token", token);
           setToken(token);
 
@@ -40,8 +40,8 @@ const actions = {
 
           commit("set_username", username);
           commit("set_avaster", avaster);
-          
-         // console.log(username);
+
+          // console.log(username);
           resolve();
         })
         .catch((error) => {
@@ -73,27 +73,28 @@ const actions = {
     });
   },
 
-  // 移除token
-  resetToken({ commit }) {
-    return new Promise((resolve) => {
-      commit("set_token", null)
-      removeToken();
-      resolve();
-    });
-  },
-
   //退出系统
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token)
         .then(() => {
-          commit("set_token",null);
+          commit("set_token", "");
           removeToken();
+
           resolve();
         })
         .catch((err) => {
           reject(err);
         });
+    });
+  },
+
+  // 移除token
+  resetToken({ commit }) {
+    return new Promise((resolve) => {
+      commit("set_token", null);
+      removeToken();
+      resolve();
     });
   },
 };

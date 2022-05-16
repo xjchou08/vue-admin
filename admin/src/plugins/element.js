@@ -1,10 +1,13 @@
 import {
   Button,
+  Breadcrumb,
+  BreadcrumbItem,
   Input,
   Menu,
   Submenu,
   MenuItem,
   MenuItemGroup,
+  MessageBox,
   Message,
   FormItem,
   Form,
@@ -13,11 +16,15 @@ import {
   DropdownMenu,
   DropdownItem,
   Avatar,
-
+  Table,
+  TableColumn,
+  Dialog,
 } from "element-ui";
 
 const components = [
   Button,
+  Breadcrumb,
+  BreadcrumbItem,
   Input,
   Menu,
   MenuItem,
@@ -25,24 +32,26 @@ const components = [
   FormItem,
   MenuItemGroup,
   Form,
+  Dialog,
   Dropdown,
   DropdownMenu,
   DropdownItem,
   Avatar,
+  Table,
+  TableColumn,
 ];
 
-const productionTipCmp = [Message, Loading];
+const productionTipCmp = [Message, MessageBox, Loading];
 
 export default {
   components,
   productionTipCmp,
 };
 
-
 /**
  * 
  * 
- * import {
+ import {
   Pagination,
   Dialog,
   Autocomplete,

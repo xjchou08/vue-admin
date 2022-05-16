@@ -1,3 +1,24 @@
+/**
+ * session会话
+ */
+module.exports = async (req, res, next) => {
+  const sessionUser = req.session.user;
+
+  if (!sessionUser) {
+    // 302 重定向到登录页面
+    // res.redirect(307, "/user/login");
+    res.status(302).json({
+      message: "请先登录",
+      code: 302,
+    });
+  }
+  return next();
+};
+/**
+ * 
+ *  jwt
+ * 
+ * 
 const { verify } = require("../utils/jwt");
 const { jwtSecret } = require("../config/config.default");
 const { User } = require("../model");
@@ -22,3 +43,4 @@ module.exports = async (req, res, next) => {
     res.status(401).end();
   }
 };
+ */

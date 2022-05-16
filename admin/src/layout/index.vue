@@ -1,24 +1,39 @@
 <template>
   <div class="layout-container">
     <div class="aside">
-      <side-bar/>
+      <side-bar />
     </div>
     <div class="right">
-      <div class="header"><nav-bar/></div>
-      <div class="main"><app-main/></div>
+      <div class="navBar" :class="{ fixedHeader: collapse }">
+        <nav-bar />
+      </div>
+      <app-main class="app-main" />
     </div>
   </div>
 </template>
 
 <script>
-import {AppMain, NavBar, SideBar} from './components'
+import { AppMain, NavBar, SideBar } from "./components";
+import { mapState } from "vuex";
+
 export default {
   name: "Layout",
-  components:{
+  components: {
     AppMain,
     NavBar,
-    SideBar
-  }
+    SideBar,
+  },
+  computed: {
+    ...mapState({
+      collapse: (state) => state.app.sidebar.collapse,
+    }),
+
+    classObj() {
+      return {
+        hideSidebar: !this.collapse,
+      };
+    },
+  },
 };
 </script>
 
@@ -29,23 +44,23 @@ export default {
   right: 0px;
   top: 0px;
   bottom: 0px;
-  display:flex;
- flex-direction: row;
-  .aside {
-    overflow: hidden;
-  }
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(243, 240, 240);
   .right {
-    width:100%;
-    .header {
-      height:50px;
-      line-height: 50px;
-      overflow: hidden;
-      padding: 0px 15px;
-      background: #fdfdfd;
-      box-shadow: 0px 4px 4px rgba(0, 21, 41, 0.08);
+    width: 100%;
+    .navBar {
+      background-color: #fff;
+      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
     }
-    .main {
-      margin: 10px 5px 0px;
+    .fixedHeader {
+      position: fixed;
+      top: 0;
+      z-index: 9;
+      width: calc(100% - 201px);
+    }
+    .hideSidebar .fixedHeader {
+      width: calc(100% - 54px);
     }
   }
 }
