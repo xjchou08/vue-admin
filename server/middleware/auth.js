@@ -25,7 +25,7 @@ const { User } = require("../model");
 
 //验证用户身份、
 module.exports = async (req, res, next) => {
-  let token = req.headers["Authorization"];
+  let token = req.headers.authorization;
   token = token ? token.split("Bearer ")[1] : null;
 
   console.log(req.headers);

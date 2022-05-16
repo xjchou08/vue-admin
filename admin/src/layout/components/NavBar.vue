@@ -1,12 +1,13 @@
 <template>
   <div class="navbar">
     <div class="icon" @click="toggleCollapse">
-      <i v-if="this.$store.getters.collapse" class="el-icon-s-unfold"></i>
+      <i v-if="collapse" class="el-icon-s-unfold"></i>
       <i v-else class="el-icon-s-fold"></i>
     </div>
+
     <el-dropdown :hide-on-click="false">
       <div class="rightNav">
-        <img :src="avaster + '?imageView2/1/w/80/h/80'" alt="头像" />
+        <img :src="image" alt="头像" />
         <span style="margin: 0px 6px">{{ username || "用户名" }}</span>
         <i class="el-icon-arrow-down"></i>
       </div>
@@ -21,25 +22,14 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "NavBar",
-  data() {
-    return {
-      username: "",
-      avaster: "",
-    };
-  },
-  created() {
-    this.loadUser();
+  computed: {
+    ...mapGetters(["image", "username", "collapse"]),
   },
   methods: {
-    async loadUser() {
-      // 用户个人信息
-      await this.$store.dispatch("user/getUser").then((res) => {
-        this.username = res.username;
-        this.avaster = res.image;
-      });
-    },
     async logout() {
       //退出系统
       await this.$confirm("确认退出吗？", "提示", {
@@ -70,7 +60,9 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 0px 10px;
-
+  z-index: 9;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   .icon {
     font-size: 24px;
     cursor: pointer;

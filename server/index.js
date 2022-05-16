@@ -25,11 +25,11 @@ app.use(
     secret: sessionSecret,
     rolling: true,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, //一天
+      maxAge: 1000 * 60 * 60 * 24 * 7, //一天
     },
     store: MongoStore.create({
       mongoUrl: dbUrl,
-      ttl: 24 * 60 * 60, // = 1 days. Default
+      ttl: 1000 * 60 * 60 * 24 * 7, // = 1 days. Default
     }),
   })
 );

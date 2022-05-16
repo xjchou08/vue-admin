@@ -8,7 +8,7 @@ exports.login = async (req, res, next) => {
 
     if (user) {
       const token = await jwt.sign({ userId: user._id }, jwtSecret, {
-        expiresIn: 60 * 60 * 24, // token有效期1天
+        expiresIn: 7 * 60 * 60 * 24, // token有效期1天
       });
 
       const refresh_token = await jwt.sign(
@@ -23,11 +23,12 @@ exports.login = async (req, res, next) => {
 
       req.session.token = token;
       req.session.user = user;
-      //console.log(req.session.token);
 
       return res.status(200).json({
         code: 200,
         message: "登录成功",
+        username: user.username,
+        avaster: user.image,
         token,
         refresh_token,
       });
@@ -65,10 +66,10 @@ exports.register = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    //console.log(req.session);
-    //const token = req.session.token;
-
     const user = req.session.user;
+
+    //console.log(req.headers.authorization);
+
     if (user) {
       return res.status(200).json({
         code: 2000,
@@ -90,8 +91,10 @@ exports.logout = async (req, res, next) => {
   try {
     // 清除用户登录状态
     // 跳转到登录页面
-    //req.session.
+
     req.session.user = null;
+    req.headers.cookie = null;
+
     res.status(200).send("退出系统");
   } catch (err) {
     next(err);

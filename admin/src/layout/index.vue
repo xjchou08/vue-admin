@@ -4,9 +4,7 @@
       <side-bar />
     </div>
     <div class="right">
-      <div class="navBar" :class="{ fixedHeader: collapse }">
-        <nav-bar />
-      </div>
+      <nav-bar :class="{ fixedHeader: collapse }" />
       <app-main class="app-main" />
     </div>
   </div>
@@ -49,18 +47,14 @@ export default {
   background-color: rgb(243, 240, 240);
   .right {
     width: 100%;
-    .navBar {
-      background-color: #fff;
-      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-    }
+
     .fixedHeader {
       position: fixed;
       top: 0;
-      z-index: 9;
       width: calc(100% - 201px);
-    }
-    .hideSidebar .fixedHeader {
-      width: calc(100% - 54px);
+      .hideSidebar {
+        width: calc(100% - 54px);
+      }
     }
   }
 }

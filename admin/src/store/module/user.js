@@ -4,19 +4,18 @@ import { login, logout, getUser } from "@/api/user";
 
 const state = {
   username: "",
-  avaster: "",
+  image: "",
   token: getToken(),
 };
 
 const mutations = {
   // 修改state状态
-
   set_username: (state, username) => {
     state.username = username;
   },
 
-  set_avaster: (state, avaster) => {
-    state.avaster = avaster;
+  set_image: (state, image) => {
+    state.image = image;
   },
 
   set_token: (state, token) => {
@@ -32,16 +31,16 @@ const actions = {
       login({ email: email.trim(), password: password })
         .then((res) => {
           let token = res.data.token;
+
           commit("set_token", token);
           setToken(token);
 
+          const image = res.data.avaster;
           const username = res.data.username;
-          const avaster = res.data.image;
 
           commit("set_username", username);
-          commit("set_avaster", avaster);
+          commit("set_image", image);
 
-          // console.log(username);
           resolve();
         })
         .catch((error) => {
@@ -56,14 +55,14 @@ const actions = {
       getUser(state.token)
         .then((res) => {
           const { data } = res;
-
+          console.log(res);
           if (!data) {
             reject("验证失效，请重新登录");
           }
-          const { username, avaster } = data;
+          //const { username, avaster } = data;
 
-          commit("set_username", username);
-          commit("set_avaster", avaster);
+          commit("set_username", data.username);
+          commit("set_image", data.image);
 
           resolve(data);
         })
